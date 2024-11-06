@@ -1,0 +1,148 @@
+# ====== 운영 체제 파일 ======
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ====== 로그 파일 ======
+*.log
+
+# ====== 임시 파일 ======
+*.tmp
+*.temp
+*.swp
+*~
+
+# ====== Node.js ======
+# Node modules
+node_modules/
+
+# 빌드 디렉토리
+dist/
+build/
+out/
+coverage/
+
+# 환경 변수 파일
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 로그 파일
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 기타
+package-lock.json
+yarn.lock
+.pnpm-debug.log*
+
+# ====== Python ======
+# Python 캐시 파일
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 가상 환경
+venv/
+env/
+.venv/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# 환경 변수 파일
+.env
+
+# IDE 설정 파일
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ====== Java ======
+# 컴파일된 클래스 파일
+*.class
+
+# 빌드 디렉토리
+bin/
+target/
+build/
+out/
+
+# IDE 설정 파일
+*.idea/
+*.vscode/
+*.project
+*.classpath
+*.settings/
+*.iml
+
+# ====== C/C++ ======
+# 컴파일된 바이너리 파일
+*.o
+*.obj
+*.exe
+*.out
+*.app
+
+# 빌드 디렉토리
+build/
+dist/
+bin/
+lib/
+*.dSYM/
+
+# 기타
+*.stackdump
+
+# ====== 일반적인 추가 항목 ======
+# 바이너리 파일
+*.bin
+*.dll
+*.so
+*.dylib
+
+# 패키지 관리자 파일
+*.lock
+*.pid
+*.seed
+
+# 문서 파일
+*.pdf
+*.doc
+*.docx
+
+# 이미지 파일
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+
+# 비디오 파일
+*.mp4
+*.mov
+*.avi
+
+# 기타 특정 파일
+*.bak
+*.backup
+*.tmp
+*.temp
+*.orig
+*.rej
+
+# ====== 사용자 정의 ======
+# 여기에 프로젝트에 특화된 파일이나 디렉토리를 추가하세요.
+# 예:
+# /public/uploads/
+# /secrets/
+.aider*
