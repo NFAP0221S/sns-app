@@ -11,6 +11,8 @@ import { UserController } from "./controllers/UserController";
 import { UserService } from "./services/UserService";
 import http from "http";
 
+const SERVER_PORTR = 5000;
+
 export class MySnsServer {
   // app 인스턴스 생성
   private app: Application;
@@ -44,5 +46,9 @@ export class MySnsServer {
 
   private createSocektIO(httpSever: http.Server): void {}
 
-  private startHttpSever(httpSever: http.Server): void {}
+  private startHttpSever(httpSever: http.Server): void {
+    httpSever.listen(SERVER_PORTR, () => {
+      console.log(`Server runnig on port ${SERVER_PORTR}`);
+    })
+  }
 }
