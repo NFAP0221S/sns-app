@@ -42,7 +42,14 @@ export class MySnsServer {
   private globalErraorHandler(app: Application): void {}
 
   // 서버 실행
-  private startSever(app: Application): void {}
+  private async startSever(app: Application): Promise<void> {
+    try {
+      const httpSever: http.Server = new http.Server(app);
+      this.startHttpSever(httpSever);
+    } catch (err) {
+      console.log(err);
+    }
+  } 
 
   private createSocektIO(httpSever: http.Server): void {}
 
