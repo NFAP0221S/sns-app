@@ -6,9 +6,9 @@ import {
   Request,
   NextFunction,
 } from "express";
-import { User } from "./models/User";
-import { UserController } from "./controllers/UserController";
-import { UserService } from "./services/UserService";
+// import { User } from "./models/User";
+// import { UserController } from "./controllers/UserController";
+// import { UserService } from "./services/UserService";
 import http from "http";
 
 const SERVER_PORTR = 5000;
