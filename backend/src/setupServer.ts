@@ -17,6 +17,7 @@ import HTTP_STATUS from "http-status-codes";
 import "express-async-errors";
 import compression from "compression";
 import helmet from "helmet";
+import { config } from "./config";
 
 const SERVER_PORTR = 5000;
 
@@ -42,9 +43,9 @@ export class MySnsServer {
     app.use(
       cookieSession({
         name: "session",
-        keys: ["test1", "test2"], // 쿠키 암호화를 위한 키
+        keys: [config.SECRET_KEY_ONE!, config.SECRET_KEY_TWO!], // 쿠키 암호화를 위한 키
         maxAge: 24 * 7 * 3600000, // 세션 만료 기간: 3주
-        secure: false, // 프로덕션에서는 true로 설정하여 HTTPS만 허용
+        secure: config.NODE_ENV !== "development", // 프로덕션에서는 true로 설정하여 HTTPS만 허용
       })
     );
 
@@ -57,7 +58,7 @@ export class MySnsServer {
     // cors 미들웨어: CORS를 활성화하고 다양한 옵션을 설정합니다
     app.use(
       cors({
-        origin: "*", // 모든 출처의 요청을 허용
+        origin: config.CLIENT_URL, // 모든 출처의 요청을 허용
         credentials: true, // 교차 출처 요청에 쿠키를 포함
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // 허용되는 HTTP 메서드
         // optionsSuccessStatus: HTTP_STATUS.OK, // OPTIONS 요청의 성공 상태 코드 설정
