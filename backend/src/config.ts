@@ -11,6 +11,7 @@ class Config {
   public SECRET_KEY_ONE: string | undefined;
   public SECRET_KEY_TWO: string | undefined;
   public CLIENT_URL: string | undefined;
+  public REDIS_HOST: string | undefined;
 
   // 기본 데이터베이스 URL을 상수로 선언
   private readonly DEFAULT_DATABASE_URL: string =
@@ -24,6 +25,7 @@ class Config {
     this.SECRET_KEY_ONE = process.env.SECRET_KEY_ONE || ""; // 비밀 키 1
     this.SECRET_KEY_TWO = process.env.SECRET_KEY_TWO || ""; // 비밀 키 2
     this.CLIENT_URL = process.env.CLIENT_URL || ""; // 클라이언트 URL
+    this.CLIENT_URL = process.env.REDIS_HOST || ""; // 클라이언트 URL
   }
 
   // 설정값을 검증하는 메서드

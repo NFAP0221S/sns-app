@@ -14,6 +14,9 @@ import cors from "cors";
 import hpp from "hpp";
 import cookieSession from "cookie-session";
 import HTTP_STATUS from "http-status-codes";
+import { Server } from "socket.io";
+import { createClient } from "redis";
+import { createAdapter } from "@socket.io/redis-adapter";
 import "express-async-errors";
 import compression from "compression";
 import helmet from "helmet";
@@ -88,17 +91,36 @@ export class MySnsServer {
   private async startSever(app: Application): Promise<void> {
     try {
       const httpSever: http.Server = new http.Server(app);
+      const socketIO: Server = await this.createSocektIO(httpSever);
       this.startHttpSever(httpSever);
+      this.socketIOConnetions(socketIO);
     } catch (err) {
       console.log(err);
     }
   }
 
-  private createSocektIO(httpSever: http.Server): void {}
+  private async createSocektIO(httpSever: http.Server): Promise<Server> {
+    const io: Server = new Server(httpSever, {
+      cors: {
+        origin: config.CLIENT_URL,
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      },
+    });
+    const pubClient = createClient({ url: config.REDIS_HOST });
+    const subClient = pubClient.duplicate();
+    await Promise.all([pubClient.connect(), subClient.connect()]);
+    io.adapter(createAdapter(pubClient, subClient));
+    return io;
+  }
 
   private startHttpSever(httpSever: http.Server): void {
+    console.log(`Server has started with process ${process.pid}`);
     httpSever.listen(SERVER_PORTR, () => {
       console.log(`Server runnig on port ${SERVER_PORTR}`);
     });
   }
+
+  private  socketIOConnetions(io: Server): void {
+
+  } 
 }
