@@ -21,6 +21,7 @@ import "express-async-errors";
 import compression from "compression";
 import helmet from "helmet";
 import { config } from "./config";
+import applicationRoute from "./route";
 
 const SERVER_PORTR = 5000;
 
@@ -81,8 +82,13 @@ export class MySnsServer {
     app.use(urlencoded({ extended: true, limit: "50mb" }));
   }
 
-  // 라우트
-  private routeMiddleWare(app: Application): void {}
+  // 애플리케이션의 라우팅 설정을 담당하는 미들웨어 함수
+  // 1. 모든 라우트 경로를 한 곳에서 중앙 집중적으로 관리하여 코드의 구조화와 유지보수성을 높임
+  // 2. 라우트 관련 로직을 분리하여 관심사 분리(Separation of Concerns) 원칙을 따름
+  // 3. 필요한 경우 라우트에 대한 전역적인 미들웨어나 설정을 쉽게 추가할 수 있음
+  private routeMiddleWare(app: Application): void {
+    applicationRoute(app);
+  }
 
   // 에러
   private globalErraorHandler(app: Application): void {}
@@ -99,6 +105,10 @@ export class MySnsServer {
     }
   }
 
+  // Socket.IO 서버를 생성하고 설정하는 함수
+  // 1. WebSocket 연결을 위한 Socket.IO 서버 인스턴스를 생성
+  // 2. Redis 어댑터를 통한 수평적 확장 지원 (수평적 스케일링)
+  // 3. CORS 설정으로 허용된 클라이언트만 접근 가능하도록 보안 설정
   private async createSocektIO(httpSever: http.Server): Promise<Server> {
     const io: Server = new Server(httpSever, {
       cors: {
@@ -106,6 +116,8 @@ export class MySnsServer {
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       },
     });
+    // Redis pub/sub 클라이언트 생성 및 연결
+    // 실시간 이벤트의 분산 처리를 위해 Redis를 메시지 브로커로 사용
     const pubClient = createClient({ url: config.REDIS_HOST });
     const subClient = pubClient.duplicate();
     await Promise.all([pubClient.connect(), subClient.connect()]);
@@ -113,6 +125,9 @@ export class MySnsServer {
     return io;
   }
 
+  // HTTP 서버를 시작하고 서버 상태를 콘솔에 출력하는 함수
+  // 1. 지정된 포트에서 HTTP 서버를 시작
+  // 2. 프로세스 ID와 함께 서버 시작 정보를 로깅
   private startHttpSever(httpSever: http.Server): void {
     console.log(`Server has started with process ${process.pid}`);
     httpSever.listen(SERVER_PORTR, () => {
